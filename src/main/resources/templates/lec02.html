@@ -11,6 +11,22 @@
   <p th:if="${user_name}">
     Hi [[${user_name}]]
   </p>
+
+  <p>
+    <a href="/lec02?my_hand=0">ぐー</a>
+    <a href="/lec02?my_hand=1">ちょき</a>
+    <a href="/lec02?my_hand=2">ぱー</a>
+  </p>
+
+  <div th:if="${my_hand}">
+    あなたの手 [[${my_hand}]]
+  </div>
+  <div th:if="${com_hand}">
+    相手の手 [[${com_hand}]]
+  </div>
+  <div th:if="${result}">
+    結果 [[${result}]]
+  </div>
 </body>
 
 </html>
