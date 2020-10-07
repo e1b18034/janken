@@ -33,4 +33,16 @@ public enum JankenResult {
     // resultIdが有効な値でない場合
     throw new IllegalArgumentException("valueOf() of JankenResult: argument[resultId] is out of [0, 2]");
   }
+
+  // オブジェクト比較
+  public boolean compare(Object object) {
+    if(object == this) return true;
+    if(object instanceof JankenResult) {
+      JankenResult result = (JankenResult)object;
+      if(result.resultId == this.resultId && result.resultString.equals(this.resultString)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

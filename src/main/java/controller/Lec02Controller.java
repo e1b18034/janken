@@ -10,6 +10,8 @@ import oit.is.z0411.kaizi.janken.model.Janken;
 
 @Controller
 public class Lec02Controller {
+  private Janken janken;
+
   /**
    * @param user_name
    * @param model
@@ -17,6 +19,9 @@ public class Lec02Controller {
   */
   @PostMapping("/lec02")
   public String lec02(@RequestParam String user_name, ModelMap model) {
+    // Jankenクラスのインスタンス取得
+    this.janken = new Janken();
+
     model.addAttribute("user_name", user_name);
     return "lec02.html";
   }
@@ -28,11 +33,29 @@ public class Lec02Controller {
    */
   @GetMapping("/lec02")
   public String lec02(@RequestParam Integer my_hand, ModelMap model) {
-    Janken janken = new Janken(my_hand);
+    // 手の選択
+    this.janken.selectMyHand(my_hand);
+    this.janken.selectComHand();
 
-    model.addAttribute("my_hand", janken.myHandName());
-    model.addAttribute("com_hand", janken.comHandName());
-    model.addAttribute("result", janken.result());
+    // 手と結果の表示
+    model.addAttribute("my_hand", this.janken.myHandName());
+    model.addAttribute("com_hand", this.janken.comHandName());
+    model.addAttribute("result", this.janken.result());
+
+    // これまでの結果を表示
+    int count = this.janken.getCount();
+    int win = this.janken.getWinCount();
+    int lose = this.janken.getLoseCount();
+    int tie = this.janken.getTieCount();
+    model.addAttribute("count", count);
+    model.addAttribute("win_count", win);
+    model.addAttribute("lose_count", lose);
+    model.addAttribute("tie_count", tie);
+    if(count > 0) {
+      model.addAttribute("win_rate", (double)win / count * 100);
+      model.addAttribute("lose_rate", (double)lose / count * 100);
+      model.addAttribute("tie_rate", (double)tie / count * 100);
+    }
 
     return "lec02.html";
   }

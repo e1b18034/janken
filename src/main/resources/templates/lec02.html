@@ -27,6 +27,22 @@
   <div th:if="${result}">
     結果 [[${result}]]
   </div>
+
+  <div th:if="${count}">
+    対戦回数 [[${count}]]
+  </div>
+  <div th:if="${count}">
+    勝ち回数 [[${win_count}]]回
+    <span th:if="${win_rate} >= 0">([[${win_rate}]]%)</span>
+  </div>
+  <div th:if="${count}">
+    負け回数 [[${lose_count}]]回
+    <span th:if="${lose_rate} >= 0">([[${lose_rate}]]%)</span>
+  </div>
+  <div th:if="${count}">
+    あいこ回数 [[${tie_count}]]回
+    <span th:if="${tie_rate} >= 0">([[${tie_rate}]]%)</span>
+  </div>
 </body>
 
 </html>
