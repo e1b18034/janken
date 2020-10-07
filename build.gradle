@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 }
 
-group = 'oit.is.z0411'
+group = 'oit.is.z0411.kaizi'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
