@@ -1,12 +1,17 @@
 package oit.is.z0411.kaizi.janken.model;
 
+import java.util.Random;
+
 public class Janken {
   private JankenHand myHand;
   private JankenHand comHand;
 
   public Janken(int myHand) {
     this.myHand = JankenHand.valueOf(myHand);
-    this.comHand = JankenHand.GU;
+
+    Random random = new Random();
+    int comHandId = random.nextInt(3);
+    this.comHand = JankenHand.valueOf(comHandId);
   }
 
   public String result() {
