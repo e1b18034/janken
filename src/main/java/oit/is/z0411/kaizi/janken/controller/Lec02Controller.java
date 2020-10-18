@@ -16,7 +16,7 @@ public class Lec02Controller {
    * @param user_name
    * @param model
    * @return
-  */
+   */
   @PostMapping("/lec02")
   public String lec02(@RequestParam String user_name, ModelMap model) {
     // Jankenクラスのインスタンス取得
@@ -51,10 +51,10 @@ public class Lec02Controller {
     model.addAttribute("win_count", win);
     model.addAttribute("lose_count", lose);
     model.addAttribute("tie_count", tie);
-    if(count > 0) {
-      model.addAttribute("win_rate", (double)win / count * 100);
-      model.addAttribute("lose_rate", (double)lose / count * 100);
-      model.addAttribute("tie_rate", (double)tie / count * 100);
+    if (count > 0) {
+      model.addAttribute("win_rate", (double) win / count * 100);
+      model.addAttribute("lose_rate", (double) lose / count * 100);
+      model.addAttribute("tie_rate", (double) tie / count * 100);
     }
 
     return "lec02.html";
