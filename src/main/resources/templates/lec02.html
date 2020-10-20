@@ -54,6 +54,16 @@
     あいこ回数 [[${tie_count}]]回
     <span th:if="${tie_rate} >= 0">([[${tie_rate}]]%)</span>
   </div>
+
+  <div th:if="${matches}">
+    <p th:each="match : ${matches}">
+      id：[[${match.id}]]
+      user_1：[[${match.user_1}]]
+      user_2：[[${match.user_2}]]
+      user_1_hand：[[${match.user_1_hand}]]
+      user_2_hand：[[${match.user_2_hand}]]
+    </p>
+  </div>
 </body>
 
 </html>
