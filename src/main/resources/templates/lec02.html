@@ -11,17 +11,17 @@
     <a href="/logout">ログアウト</a>
   </p>
 
-  <h1>Lec02 GET!</h1>
-  <div th:if="${entry}">
-    <p>エントリー</p>
-    <ul>
-      <li th:each="user : ${entry.users}">[[${user}]]</li>
-    </ul>
-  </div>
-
   <p th:if="${user_name}">
     Hi [[${user_name}]]
   </p>
+
+  <h1>Lec02 GET!</h1>
+  <div th:if="${users}">
+    <p>エントリー</p>
+    <ul>
+      <li th:each="user : ${users}">[[${user.name}]]</li>
+    </ul>
+  </div>
 
   <p>
     <a href="/lec02?my_hand=0">ぐー</a>
