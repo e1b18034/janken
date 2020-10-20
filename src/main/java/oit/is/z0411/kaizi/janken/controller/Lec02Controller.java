@@ -84,4 +84,12 @@ public class Lec02Controller {
 
     return "lec02.html";
   }
+
+  @GetMapping("/match")
+  public String match(@RequestParam Integer id, Principal principal, ModelMap model) {
+    model.addAttribute("player_name", principal.getName());
+    model.addAttribute("com_name", userMapper.getAllUsers().get(id - 1).getName());
+
+    return "match.html";
+  }
 }
