@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import oit.is.z0411.kaizi.janken.model.Janken;
 import oit.is.z0411.kaizi.janken.model.Match;
+import oit.is.z0411.kaizi.janken.model.MatchInfo;
+import oit.is.z0411.kaizi.janken.model.MatchInfoMapper;
 import oit.is.z0411.kaizi.janken.model.MatchMapper;
 import oit.is.z0411.kaizi.janken.model.User;
 import oit.is.z0411.kaizi.janken.model.UserMapper;
@@ -21,9 +23,10 @@ import oit.is.z0411.kaizi.janken.model.Entry;
 public class Lec02Controller {
   @Autowired
   private UserMapper userMapper;
-
   @Autowired
   private MatchMapper matchMapper;
+  @Autowired
+  private MatchInfoMapper matchInfoMapper;
 
   @Autowired
   private Entry entry;
@@ -65,6 +68,13 @@ public class Lec02Controller {
   @GetMapping("/match")
   public String match(@RequestParam Integer id, ModelMap model) {
     this.matchUserId = id;
+
+    MatchInfo matchInfo = new MatchInfo(); // 新規MatchInfoオブジェクト作成
+    matchInfo.setUser_1(this.loginUserId); // ログインユーザをuser_1にセット
+    matchInfo.setUser_2(this.matchUserId); // 対戦相手をuser_2にセット
+    matchInfo.setIs_active(true); // 対戦状況をtrueとする
+
+    matchInfoMapper.insertMatchInfo(matchInfo); // match_infoテーブルに挿入
 
     model.addAttribute("player_name", this.userMapper.getUserById(this.loginUserId).getName());
     model.addAttribute("com_name", this.userMapper.getUserById(this.matchUserId).getName());
