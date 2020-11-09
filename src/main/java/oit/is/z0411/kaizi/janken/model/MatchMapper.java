@@ -12,7 +12,10 @@ public interface MatchMapper {
   @Select("SELECT * FROM matches")
   List<Match> getAllMatches();
 
-  @Insert("INSERT INTO matches (user_1, user_2, user_1_hand, user_2_hand) VALUES (#{user_1}, #{user_2}, #{user_1_hand}, #{user_2_hand})")
+  @Select("SELECT * FROM matches WHERE user_1 = #{user_1} AND user_2 = #{user_2}")
+  List<Match> getMatchesByUsers(int user_1, int user_2);
+
+  @Insert("INSERT INTO matches (user_1, user_2, user_1_hand, user_2_hand, is_active) VALUES (#{user_1}, #{user_2}, #{user_1_hand}, #{user_2_hand}, #{is_active})")
   @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
   void insertResult(Match match);
 }

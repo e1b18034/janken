@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 // import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import oit.is.z0411.kaizi.janken.model.Janken;
@@ -17,6 +18,7 @@ import oit.is.z0411.kaizi.janken.model.MatchInfoMapper;
 import oit.is.z0411.kaizi.janken.model.MatchMapper;
 import oit.is.z0411.kaizi.janken.model.User;
 import oit.is.z0411.kaizi.janken.model.UserMapper;
+import oit.is.z0411.kaizi.janken.service.AsyncKekka;
 import oit.is.z0411.kaizi.janken.model.Entry;
 
 @Controller
@@ -31,20 +33,11 @@ public class Lec02Controller {
   @Autowired
   private Entry entry;
 
+  @Autowired
+  private AsyncKekka asyncKekka;
+
   private int loginUserId;
   private int matchUserId;
-
-  /**
-   * @param user_name
-   * @param model
-   * @return
-   */
-  /*
-   * @PostMapping("/lec02") public String lec02(@RequestParam String user_name,
-   * ModelMap model) { // Jankenクラスのインスタンス取得 this.janken = new Janken();
-   *
-   * model.addAttribute("user_name", user_name); return "lec02.html"; }
-   */
 
   @GetMapping("/lec02")
   public String lec02(Principal principal, ModelMap model) {
@@ -89,10 +82,20 @@ public class Lec02Controller {
    */
 
   @GetMapping("/result")
-  public String janken(@RequestParam Integer my_hand, ModelMap model) {
+  public String janken(ModelMap model) {
     model.addAttribute("player_name", this.userMapper.getUserById(this.loginUserId).getName());
     model.addAttribute("com_name", this.userMapper.getUserById(this.matchUserId).getName());
 
+    // 手と結果の表示
+    model.addAttribute("my_hand", Janken.getMyHandName());
+    model.addAttribute("com_hand", Janken.getComHandName());
+    model.addAttribute("result", Janken.getResult());
+
+    return "match.html";
+  }
+
+  @GetMapping("/janken")
+  public String janken(@RequestParam Integer my_hand) {
     // じゃんけん ここから
     // 手の選択
     Janken.selectMyHand(my_hand);
@@ -104,13 +107,17 @@ public class Lec02Controller {
     result.setUser_2(this.matchUserId);
     result.setUser_1_hand(Janken.getMyHandName());
     result.setUser_2_hand(Janken.getComHandName());
+    result.setIs_active(false);
     this.matchMapper.insertResult(result);
 
-    // 手と結果の表示
-    model.addAttribute("my_hand", Janken.getMyHandName());
-    model.addAttribute("com_hand", Janken.getComHandName());
-    model.addAttribute("result", Janken.getResult());
+    return "wait.html";
+  }
 
-    return "match.html";
+  @GetMapping("/wait")
+  public SseEmitter wait(ModelMap model) {
+    final SseEmitter sseEmitter = new SseEmitter();
+    this.asyncKekka.asyncResult(sseEmitter, this.loginUserId, this.matchUserId);
+
+    return sseEmitter;
   }
 }
