@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Lec02 GET!</title>
+</head>
+
+<body>
+  <p>
+    <a href="/logout">ログアウト</a>
+  </p>
+
+  <p th:if="${user_name}">
+    Hi [[${user_name}]]
+  </p>
+
+  <h1>Lec02 GET!</h1>
+  <div th:if="${users}">
+    <p>エントリー</p>
+    <ul>
+      <li th:each="user : ${users}">
+        <a th:href="@{/match(id=${user.id})}">[[${user.name}]]</a>
+      </li>
+    </ul>
+  </div>
+
+  <div th:if="${matches}">
+    <p th:each="match : ${matches}">
+      id：[[${match.id}]]
+      user_1：[[${match.user_1}]]
+      user_2：[[${match.user_2}]]
+      user_1の手：[[${match.user_1_hand}]]
+      user_2の手：[[${match.user_2_hand}]]
+    </p>
+  </div>
+</body>
+
+</html>
