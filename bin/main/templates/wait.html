@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Janken | Wait</title>
+</head>
+
+<body>
+  <h1>相手の手を待ってます。</h1>
+  <h2 id="result-anchor-parent"></h2>
+  <script>
+    window.onload = () => {
+      let sse = new EventSource("/wait");
+      sse.onmessage = (event) => {
+        let h2 = document.getElementById("result-anchor-parent");
+        while (h2.firstChild) {
+          h2.removeChild(h2.firstChild);
+        }
+
+        let anchor = document.createElement("a");
+        anchor.setAttribute("href","/result");
+        anchor.textContent = "結果を見る";
+
+        h2.appendChild(anchor);
+      };
+    };
+  </script>
+</body>
+
+</html>
